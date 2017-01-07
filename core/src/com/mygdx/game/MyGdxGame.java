@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
@@ -13,7 +14,9 @@ public class MyGdxGame extends ApplicationAdapter {
 	Texture img;
 	float x, y, xv, yv;
 	static final float MAX_VELOCITY = 100;
-	TextureRegion up, down, left, right, stand;
+	TextureRegion up, upStep, down, downStep, left, right, standRight, standLeft;
+	Animation walkRight, walkLeft, walkUp, walkDown;
+	float time;
 
 	static final int WIDTH = 16;
 	static final int HEIGHT = 16;
@@ -30,31 +33,45 @@ public class MyGdxGame extends ApplicationAdapter {
 		Texture tiles = new Texture("tiles.png");
 		TextureRegion[][] grid = TextureRegion.split(tiles, 16, 16);
 		down = grid[6][0];
+		downStep = new TextureRegion(down);
+		downStep.flip(true,false);
 		up = grid[6][1];
+		upStep = new TextureRegion(up);
+		upStep.flip(true, false);
 		right = grid[6][3];
 		left = new TextureRegion(right);
-		stand = grid [6][2];
 		left.flip(true, false);
+		standRight = grid [6][2];
+		standLeft = new TextureRegion(standRight);
+		standLeft.flip(true, false);
+		walkRight = new Animation(0.2f, standRight, right);
+		walkLeft = new Animation(.2f, standLeft, left);
+		walkUp = new Animation(.2f, up,upStep);
+		walkDown = new Animation(.2f, down, downStep);
+
+
+
 	}
 
 	@Override
 	public void render () {
+		time += Gdx.graphics.getDeltaTime();
 		move();
 
 		TextureRegion img;
 		if (yv < 0) {
-			img = down;
+			img = walkDown.getKeyFrame(time, true);
 		} else if (yv > 0){
-			img = up;
+			img = walkUp.getKeyFrame(time, true);
 		} else if (xv < 0) {
-			img = left;
+			img = walkLeft.getKeyFrame(time, true);
 		} else if (xv > 0) {
-			img = right;
+			img = walkRight.getKeyFrame(time, true);
 		} else {
-			img = stand;
+			img = standRight;
 		}
 
-		Gdx.gl.glClearColor(0.5f, 0.5f, 1, 1);
+		Gdx.gl.glClearColor(0.5f, 1, 0.5f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
 		batch.draw(img, x, y, DRAW_HEIGHT, DRAW_WIDTH);
