@@ -14,9 +14,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
-import java.util.ArrayList;
 import java.util.Random;
-
 
 public class MyGdxGame extends ApplicationAdapter {
 	SpriteBatch batch;
@@ -88,7 +86,6 @@ public class MyGdxGame extends ApplicationAdapter {
 		zombieWalkLeft = new Animation(.2f, zombieLeft, zombieStepLeft);
 		zombieWalkUp = new Animation(.2f, zombieUp, zombieUpStep);
 		zombieWalkDown = new Animation(.2f, zombieDown, zombieDownStep);
-
 	}
 
 	@Override
@@ -137,7 +134,6 @@ public class MyGdxGame extends ApplicationAdapter {
 		batch.draw(tree, 550, 425, DRAW_HEIGHT, DRAW_WIDTH);
 		batch.end();
 	}
-
 
 	public float decelerate(float velocity) {
 		float deceleration = 0.95f;
@@ -194,35 +190,23 @@ public class MyGdxGame extends ApplicationAdapter {
 		if (x > Gdx.graphics.getWidth()) {
 			x = 0;
 		}
-
 	}
 	 public void zombieMove () {
-//		 ArrayList<Animation> movement = new ArrayList<Animation>();
-//		 movement.add(0, zombieWalkDown);
-//		 movement.add(1, zombieWalkUp);
-//		 movement.add(2, zombieWalkLeft);
-//		 movement.add(3, zombieWalkRight);
-//
-//		 for (Animation animation : movement) {
-		 	random = rand.nextInt(4);
-		 	if (random == 1){
-		 		//movement.get(0);
-				zy--;
-		 		zyv = MAX_VELOCITY/2 * -1;
-			} else if (random == 2) {
-		 		//movement.get(1);
-		 		zy++;
-		 		zyv = MAX_VELOCITY/2;
-			}else if (random == 3) {
-		 		//movement.get(2);
-		 		zx--;
-		 		zxv = MAX_VELOCITY/2 * -1;
-			}else if (random == 4) {
-		 		//movement.get(3);
-		 		zx++;
-		 		zxv = MAX_VELOCITY/2;
-			}
-	//	 }
+
+		 random = rand.nextInt(4);
+		 if (random == 1){
+			 zy--;
+			 zyv = MAX_VELOCITY * -1;
+		 } else if (random == 2) {
+			 zy++;
+			 zyv = MAX_VELOCITY;
+		 }else if (random == 3) {
+			 zx--;
+			 zxv = MAX_VELOCITY * -1;
+		 }else if (random == 4) {
+			 zx++;
+			 zxv = MAX_VELOCITY;
+		 }
 
 		 zy += zyv * Gdx.graphics.getDeltaTime();
 		 zx += zxv * Gdx.graphics.getDeltaTime();
@@ -238,7 +222,6 @@ public class MyGdxGame extends ApplicationAdapter {
 		 }
 		 if (zx > Gdx.graphics.getWidth()) {
 			 zx = 0;
-
 		 }
 	 }
 
